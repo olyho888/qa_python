@@ -6,6 +6,7 @@ test_init_genre_has_correct_values - тест на проверку, что genr
 test_init_genre_age_rating_has_correct_values - тест на проверку, что genre_age_rating инициализируется с правильными значениями
    
 test_add_new_book_add_one_book -  тест на добавление одной книги
+test_add_new_book_not_added_invalid_name - тест на проверку что, не добавляются книги с пустым названием и очень длинным названием
 test_set_book_genre_set_valid_genre - тест на установления известного жанра книги
 test_set_book_genre_set_invalid_genre - тест на установления неизвестного жанра книги
 test_get_book_genre_return_correct_genre - тест на получения жанра книги

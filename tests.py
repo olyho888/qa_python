@@ -25,26 +25,32 @@ class TestBooksCollector:
         collector.add_new_book('Гордость и предубеждение')
         assert 'Гордость и предубеждение' in collector.books_genre
 
-    #6 тест на установления известного жанра книги
+    #6 тест на проверку что, не добавляются книги с пустым названием и очень длинным названием
+    @pytest.mark.parametrize('name', ['', 'Странная история доктора Джекила и мистера Хайда'])
+    def test_add_new_book_not_added_invalid_name(self, collector, name):
+        collector.add_new_book(name)
+        assert len(collector.books_genre) == 0
+
+    #7 тест на установления известного жанра книги
     def test_set_book_genre_set_valid_genre(self, collector):
         collector.add_new_book('Гордость и предубеждение')
         collector.set_book_genre('Гордость и предубеждение', 'Комедии')
         assert collector.get_book_genre('Гордость и предубеждение') == 'Комедии'
 
-    #7 тест на установления неизвестного жанра книги
+    #8 тест на установления неизвестного жанра книги
     def test_set_book_genre_set_invalid_genre(self, collector):
         collector.add_new_book('Поющие в терновнике')
         collector.set_book_genre('Поющие в терновнике', 'Драмы')
         assert collector.get_book_genre('Поющие в терновнике') == ''
 
-    #8 тест на получения жанра книги
+    #9 тест на получения жанра книги
     @pytest.mark.parametrize('genre', ['Детективы', 'Ужасы', 'Комедии'])
     def test_get_book_genre_return_correct_genre(self, collector, genre):
         collector.add_new_book('Гордость и предубеждение')
         collector.set_book_genre('Гордость и предубеждение', genre)
         assert collector.get_book_genre('Гордость и предубеждение') == genre
 
-    #9 тест на вывод списка книг с определённым жанром
+    #10 тест на вывод списка книг с определённым жанром
     @pytest.mark.parametrize('spec_genre', ['Детективы', 'Ужасы', 'Комедии'])
     def test_get_books_with_specific_genre_return_correct_list(self, collector, books_dict_1, spec_genre):
         books_with_spec_genre = []
@@ -55,14 +61,14 @@ class TestBooksCollector:
                 books_with_spec_genre.append(name)
         assert collector.get_books_with_specific_genre(spec_genre) == books_with_spec_genre
 
-    #10 тест на получение словаря books_genre
+    #11 тест на получение словаря books_genre
     def test_get_books_genre_return_correct_dictionary(self, collector, books_dict_2):
         for name, genre in books_dict_2.items():
             collector.add_new_book(name)
             collector.set_book_genre(name, genre)
         assert collector.get_books_genre() == books_dict_2
 
-    #11 тест на возвращение книг, подходящих детям
+    #12 тест на возвращение книг, подходящих детям
     def test_get_books_for_children_return_correct_list(self, collector, books_dict_1):
         children_books = []
         for name, genre in books_dict_1.items():
@@ -72,14 +78,14 @@ class TestBooksCollector:
                 children_books.append(name)
         assert collector.get_books_for_children() == children_books
 
-    #12 тест на добавление книги в Избранное
+    #13 тест на добавление книги в Избранное
     @pytest.mark.parametrize('name', ['Вий','Нос','Мёртвые души','Ревизор'])
     def test_add_book_in_favorites_add_one_book(self, collector, name):
         collector.add_new_book(name)
         collector.add_book_in_favorites(name)
         assert name in collector.get_list_of_favorites_books()
 
-    #13 тест на удаление книги из Избранного
+    #14 тест на удаление книги из Избранного
     @pytest.mark.parametrize('name', ['Вий', 'Нос', 'Мёртвые души', 'Ревизор'])
     def test_delete_book_from_favorites_delete_one_book(self, collector, name):
         collector.add_new_book(name)
@@ -87,7 +93,7 @@ class TestBooksCollector:
         collector.delete_book_from_favorites(name)
         assert name not in collector.get_list_of_favorites_books()
 
-    #14 тест на получение списка Избранного
+    #15 тест на получение списка Избранного
     def test_get_list_of_favorites_books_return_correct_list(self, collector, books_dict_1):
         favorite_books = []
         for name, genre in books_dict_1.items():
